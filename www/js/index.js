@@ -12,15 +12,18 @@ async function loadCategories() {
 
         categories.forEach(category => {
             const li = document.createElement('li');
+            li.className = 'list-group-item d-flex justify-content-between align-items-center'; // Bootstrap
             li.textContent = category.name;
 
             const viewButton = document.createElement('button');
+            viewButton.className = 'btn btn-info btn-sm'; // Bootstrap
             viewButton.textContent = 'Ver Sitios';
             viewButton.addEventListener('click', () => {
                 window.location.href = `category.html?id=${category.id}`;
             });
 
             const deleteButton = document.createElement('button');
+            deleteButton.className = 'btn btn-danger btn-sm'; // Bootstrap
             deleteButton.textContent = 'Eliminar Categoría';
             deleteButton.addEventListener('click', () => deleteCategory(category.id));
 
@@ -76,3 +79,4 @@ async function deleteCategory(id) {
 
 // Inicializa la página
 loadCategories();
+

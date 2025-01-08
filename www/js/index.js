@@ -8,19 +8,22 @@ async function loadCategories() {
         const response = await fetch('http://localhost:3000/categories');
         const categories = await response.json();
 
-        categoriesList.innerHTML = ''; // Limpia la listaa
+        categoriesList.innerHTML = ''; // Limpia la lista
 
         categories.forEach(category => {
             const li = document.createElement('li');
+            li.className = 'list-group-item d-flex justify-content-between align-items-center'; // Bootstrap
             li.textContent = category.name;
 
             const viewButton = document.createElement('button');
+            viewButton.className = 'btn btn-info btn-sm'; // Bootstrap
             viewButton.textContent = 'Ver Sitios';
             viewButton.addEventListener('click', () => {
                 window.location.href = `category.html?id=${category.id}`;
             });
 
             const deleteButton = document.createElement('button');
+            deleteButton.className = 'btn btn-danger btn-sm'; // Bootstrap
             deleteButton.textContent = 'Eliminar Categoría';
             deleteButton.addEventListener('click', () => deleteCategory(category.id));
 
@@ -76,3 +79,4 @@ async function deleteCategory(id) {
 
 // Inicializa la página
 loadCategories();
+

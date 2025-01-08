@@ -18,25 +18,32 @@ async function loadSites() {
 
         sites.sites.forEach(site => {
             const li = document.createElement('li');
+            li.className = 'list-group-item d-flex justify-content-between align-items-start'; // Bootstrap
             li.innerHTML = `
-                <strong>Sitio:</strong> ${site.name}<br>
-                <strong>Usuario:</strong> ${site.user}<br>
-                <strong>Contraseña:</strong> ${site.password}<br>
-                <strong>Descripción:</strong> ${site.description || 'Sin descripción'}<br>
+                <div>
+                    <strong>Sitio:</strong> ${site.name}<br>
+                    <strong>Usuario:</strong> ${site.user}<br>
+                    <strong>Contraseña:</strong> ${site.password}<br>
+                    <strong>Descripción:</strong> ${site.description || 'Sin descripción'}
+                </div>
             `;
 
-            // Botón de eliminar
+            const buttonsDiv = document.createElement('div');
+
             const deleteButton = document.createElement('button');
+            deleteButton.className = 'btn btn-danger btn-sm'; // Bootstrap
             deleteButton.textContent = 'Eliminar Sitio';
             deleteButton.addEventListener('click', () => deleteSite(site.id));
 
-            // Botón de editar
             const editButton = document.createElement('button');
+            editButton.className = 'btn btn-warning btn-sm'; // Bootstrap
             editButton.textContent = 'Editar Sitio';
             editButton.addEventListener('click', () => editSite(site));
 
-            li.appendChild(deleteButton);
-            li.appendChild(editButton);
+            buttonsDiv.appendChild(editButton);
+            buttonsDiv.appendChild(deleteButton);
+
+            li.appendChild(buttonsDiv);
             sitesList.appendChild(li);
         });
     } catch (error) {
@@ -44,7 +51,7 @@ async function loadSites() {
     }
 }
 
-// Función de editar 
+// Función de editar
 async function editSite(site) {
     const newName = prompt('Introduce el nuevo nombre del sitio:', site.name);
     const newUser = prompt('Introduce el nuevo usuario:', site.user);
@@ -57,13 +64,13 @@ async function editSite(site) {
 
     try {
         const response = await fetch(`http://localhost:3000/sites/${site.id}`, {
-            method: 'PUT', // Cambia a PUT si el backend lo soporta
+            method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 name: newName,
                 user: newUser,
                 password: newPassword,
-                description: newDescription || '', // Si no hay descripción, enviamos una ccadena vacía
+                description: newDescription || '', // Si no hay descripción, enviamos una cadena vacía
             }),
         });
 
@@ -78,9 +85,9 @@ async function editSite(site) {
     }
 }
 
-//Función para generar contraseña segura (12 caracteres entre mayúsculas, minúsculas, números y raras)
+// Generar contraseña segura
 function generateSecurePassword() {
-    const length = 12; // Longitud de la contraseña
+    const length = 12;
     const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+<>?';
     let password = '';
 
@@ -96,11 +103,7 @@ function generateSecurePassword() {
 addSiteButton.addEventListener('click', async () => {
     const siteName = prompt('Introduce el nombre del sitio:');
     const userName = prompt('Introduce el usuario:');
-
-    // Preguntar si el usuario desea generar una contraseña
-    let password = prompt(
-        'Introduce la contraseña (o escribe "GENERAR" para crear una contraseña segura):'
-    );
+    let password = prompt('Introduce la contraseña (o escribe "GENERAR" para crear una contraseña segura):');
 
     if (password && password.toUpperCase() === 'GENERAR') {
         password = generateSecurePassword();
@@ -109,7 +112,6 @@ addSiteButton.addEventListener('click', async () => {
 
     const description = prompt('Introduce la descripción (opcional):');
 
-    // Validación de los campos obligatorios (nombre, usuario, contraseña)
     if (!siteName || !userName || !password) {
         return alert('Los campos Nombre, Usuario y Contraseña son obligatorios.');
     }
@@ -137,7 +139,6 @@ addSiteButton.addEventListener('click', async () => {
     }
 });
 
-
 // Eliminar un sitio
 async function deleteSite(id) {
     try {
@@ -160,7 +161,7 @@ async function deleteSite(id) {
 const backToIndexButton = document.getElementById('backToIndex');
 
 backToIndexButton.addEventListener('click', () => {
-    window.location.href = './index.html'; // Redirige a la página principal
+    window.location.href = './index.html';
 });
 
 // Inicializa la página

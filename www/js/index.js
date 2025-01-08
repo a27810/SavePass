@@ -8,7 +8,7 @@ async function loadCategories() {
         const response = await fetch('http://localhost:3000/categories');
         const categories = await response.json();
 
-        categoriesList.innerHTML = ''; // Limpia la lista
+        categoriesList.innerHTML = ''; // Limpia la listaa
 
         categories.forEach(category => {
             const li = document.createElement('li');

@@ -63,7 +63,7 @@ async function editSite(site) {
                 name: newName,
                 user: newUser,
                 password: newPassword,
-                description: newDescription || '', // Si no hay descripción, enviamos una cadena vacía
+                description: newDescription || '', // Si no hay descripción, enviamos una ccadena vacía
             }),
         });
 
